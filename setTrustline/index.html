@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@gemwallet/api@2.2.1/umd/gemwallet-api.js"></script>
+    <title>GemWallet API - Set Trustline</title>
+</head>
+
+<body>
+<div id="wrapper">
+    <button onclick="handleTrustline('ETH', 'rnm76Qgz4G9G4gZBJVuXVvkbt7gVD7szey', '50')">Add ETH trustline on testnet</button>
+</div>
+</body>
+</html>
+
+<script>
+    function handleTrustline(currency, issuer, limit) {
+        GemWalletApi.isConnected()
+            .then((isConnected) => {
+                if (isConnected) {
+                    const transaction = {
+                        currency: currency,
+                        issuer: issuer,
+                        value: limit,
+                    };
+                    GemWalletApi.addTrustline(transaction)
+                        .then((res) => {
+                            console.log('Transaction response: ', res);
+                        })
+                        .catch((e) => {
+                            console.error('Cannot proceed the transaction: ', e);
+                        });
+                }
+            })
+            .catch((e) => {
+                console.error('GemWallet is not connected: ', e);
+            });
+    }
+</script>
